@@ -1,37 +1,29 @@
 package springvue.controller;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import springvue.domain.excelFileDesc;
+import springvue.domain.existingArticles;
+import springvue.domain.fileRowDesc;
+import springvue.domain.idListAndMax;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.text.DecimalFormat;
 
-
-@RestController
 public class FileUploadController {
-    @Value("${spring.imagebyexcel.tempfilepath}")
     private String tempPath;
-    @Value("${spring.imagebyexcel.targetpath}")
     private String targetPath;
 
-    @CrossOrigin
-    @PostMapping("/uploadExcelFile")
-    public excelFileDesc uploadFile(Model model, @RequestParam("file") MultipartFile file) throws IOException {
-        String fileLocation = saveFile(file);
-
-        return parseFile(fileLocation);
+    public FileUploadController(String tempPath, String targetPath) {
+        this.tempPath = tempPath;
+        this.targetPath = targetPath;
     }
 
     public excelFileDesc parseFile(String path) throws IOException {
@@ -48,9 +40,7 @@ public class FileUploadController {
         return desc;
     }
 
-    @CrossOrigin
-    @PostMapping("/uploadFormData")
-    public boolean uploadFormData(Model model, @RequestParam("excelData") String excelData, @RequestParam("file") MultipartFile file) throws IOException {
+    public boolean readExcelData(String excelData, MultipartFile file) throws IOException {
         String fileLocation = saveFile(file);
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -66,7 +56,7 @@ public class FileUploadController {
         return true;
     }
 
-    private String saveFile(MultipartFile file) throws IOException {
+    public String saveFile(MultipartFile file) throws IOException {
         InputStream in = file.getInputStream();
         String fileLocation = tempPath + "/" + file.getOriginalFilename();
         FileOutputStream f = new FileOutputStream(fileLocation);

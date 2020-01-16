@@ -1,4 +1,4 @@
-package springvue.controller;
+package springvue.domain;
 
 public class fileRowDesc{
     private int id;

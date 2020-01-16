@@ -1,10 +1,10 @@
-package springvue.controller;
+package springvue.domain;
 
 import java.util.HashMap;
 
 public class existingArticles {
     private String article;
-    HashMap<Integer, String> fileExtension;
+    public HashMap<Integer, String> fileExtension;
 
     public existingArticles(String article) {
         this.article = article;
