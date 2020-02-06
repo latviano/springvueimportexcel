@@ -1,10 +1,10 @@
 package springvue.domain;
 
-public class idListAndMax {
+public class IdListAndMax {
     private int maxID;
-    private existingArticles idList;
+    private ExistingArticles idList;
 
-    public idListAndMax(int maxID, existingArticles idList) {
+    public IdListAndMax(int maxID, ExistingArticles idList) {
         this.maxID = maxID;
         this.idList = idList;
     }
@@ -17,11 +17,11 @@ public class idListAndMax {
         this.maxID = maxID;
     }
 
-    public existingArticles getIdList() {
+    public ExistingArticles getIdList() {
         return idList;
     }
 
-    public void setIdList(existingArticles idList) {
+    public void setIdList(ExistingArticles idList) {
         this.idList = idList;
     }
 }

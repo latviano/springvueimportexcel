@@ -2,11 +2,11 @@ package springvue.domain;
 
 import java.util.HashMap;
 
-public class existingArticles {
+public class ExistingArticles {
     private String article;
     public HashMap<Integer, String> fileExtension;
 
-    public existingArticles(String article) {
+    public ExistingArticles(String article) {
         this.article = article;
         this.fileExtension = new HashMap<>();
     }

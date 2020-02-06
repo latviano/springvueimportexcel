@@ -8,10 +8,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
-import springvue.domain.excelFileDesc;
-import springvue.domain.existingArticles;
-import springvue.domain.fileRowDesc;
-import springvue.domain.idListAndMax;
+import springvue.domain.ExcelFileDesc;
+import springvue.domain.ExistingArticles;
+import springvue.domain.FileRowDesc;
+import springvue.domain.IdListAndMax;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -26,8 +26,8 @@ public class FileUploadController {
         this.targetPath = targetPath;
     }
 
-    public excelFileDesc parseFile(String path) throws IOException {
-        excelFileDesc desc = new excelFileDesc();
+    public ExcelFileDesc parseFile(String path) throws IOException {
+        ExcelFileDesc desc = new ExcelFileDesc();
         FileInputStream file = new FileInputStream(new File(path));
         Workbook workbook = new XSSFWorkbook(file);
         Sheet sheet = workbook.getSheetAt(0);
@@ -44,9 +44,9 @@ public class FileUploadController {
         String fileLocation = saveFile(file);
         ObjectMapper mapper = new ObjectMapper();
         try {
-            excelFileDesc fileDesc = mapper.readValue(excelData, excelFileDesc.class);
+            ExcelFileDesc fileDesc = mapper.readValue(excelData, ExcelFileDesc.class);
             if (fileDesc.getList().size() > 0) {
-                for (fileRowDesc row : fileDesc.getList()) {
+                for (FileRowDesc row : fileDesc.getList()) {
                     processRow(row.getArticle(), row.getImgPlace(), fileLocation);
                 }
             }
@@ -85,7 +85,7 @@ public class FileUploadController {
     }
 
     private String getFreePlace(String article, String requestPlace) {
-        idListAndMax list = getMaxPlace(article);
+        IdListAndMax list = getMaxPlace(article);
         int maxPlace = list.getMaxID();
         int myPlace = Integer.parseInt(requestPlace);
         myPlace = (myPlace != 0) ? myPlace : 1;
@@ -97,7 +97,7 @@ public class FileUploadController {
         return Integer.toString(myPlace);
     }
 
-    private void moveImages(int minPlace, int maxPlace, String article, existingArticles artList) {
+    private void moveImages(int minPlace, int maxPlace, String article, ExistingArticles artList) {
         int myPlace = maxPlace;
         while (myPlace >= minPlace) {
             String fileExt = artList.fileExtension.get(myPlace);
@@ -114,8 +114,8 @@ public class FileUploadController {
         }
     }
 
-    private idListAndMax getMaxPlace(String article) {
-        existingArticles extArt = new existingArticles(article);
+    private IdListAndMax getMaxPlace(String article) {
+        ExistingArticles extArt = new ExistingArticles(article);
         int maxValue = 0;
         File[] files = new File(targetPath).listFiles((dir, name) -> name.startsWith(article));
         if (files.length > 0) {
@@ -130,7 +130,7 @@ public class FileUploadController {
                 extArt.addRow(curValue, s[1]);
             }
         }
-        idListAndMax list = new idListAndMax(maxValue, extArt);
+        IdListAndMax list = new IdListAndMax(maxValue, extArt);
         return list;
     }
 }

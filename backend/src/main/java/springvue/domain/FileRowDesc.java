@@ -1,6 +1,6 @@
 package springvue.domain;
 
-public class fileRowDesc{
+public class FileRowDesc {
     private int id;
     private String article;
     private String imgPlace;
@@ -29,10 +29,10 @@ public class fileRowDesc{
         this.imgPlace = imgPlace;
     }
 
-    public fileRowDesc() {
+    public FileRowDesc() {
     }
 
-    public fileRowDesc(int id, String article, String imgPlace) {
+    public FileRowDesc(int id, String article, String imgPlace) {
         this.id = id;
         this.article = article;
         this.imgPlace = imgPlace;
